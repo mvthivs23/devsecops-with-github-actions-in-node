@@ -4,6 +4,9 @@ on:
   issues:
     types: [opened]
 
+permissions:
+  issues: write  # Permitir que el token escriba en issues
+
 jobs:
   comment-on-issue:
     runs-on: ubuntu-latest
@@ -12,12 +15,11 @@ jobs:
       # Step 1: Set an environment variable to control success/failure
       - name: Set Stage Outcome
         run: |
-          # Change this value to simulate success or failure
+          # Simulamos un éxito o un fallo
           echo "STAGE_OUTCOME=success" >> $GITHUB_ENV
-          # Uncomment the next line to simulate failure
-          # echo "STAGE_OUTCOME=failure" >> $GITHUB_ENV
+          # O para simular fallo: echo "STAGE_OUTCOME=failure" >> $GITHUB_ENV
 
-      # Step 2: Run your stage logic and simulate success or failure
+      # Step 2: Run your stage logic
       - name: Run Stage (Complete or Fail)
         id: run_stage
         run: |
@@ -29,18 +31,26 @@ jobs:
             exit 0
           fi
 
-      # Step 3: If the stage is successful, add a comment
+      # Step 3: Si el stage es exitoso, agregar un comentario a la issue
       - name: Add Success Comment
         if: success()
         run: |
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -d '{"body": "🎉 El stage ha sido completado con éxito."}' \
-          ${{ github.event.issue.url }}/comments
+          curl -L \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+          -d '{"body":"🎉 El stage ha sido completado con éxito."}'
 
-      # Step 4: If the stage fails, add a failure comment
+      # Step 4: Si el stage falla, agregar un comentario de fallo
       - name: Add Failure Comment
         if: failure()
         run: |
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -d '{"body": "❌ El stage ha sido rechazado."}' \
-          ${{ github.event.issue.url }}/comments
+          curl -L \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+          -d '{"body":"❌ El stage ha sido rechazado."}'
