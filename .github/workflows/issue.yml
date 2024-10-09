@@ -1,0 +1,46 @@
+name: Issue Stage Comment Example
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  comment-on-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Set an environment variable to control success/failure
+      - name: Set Stage Outcome
+        run: |
+          # Change this value to simulate success or failure
+          echo "STAGE_OUTCOME=success" >> $GITHUB_ENV
+          # Uncomment the next line to simulate failure
+          # echo "STAGE_OUTCOME=failure" >> $GITHUB_ENV
+
+      # Step 2: Run your stage logic and simulate success or failure
+      - name: Run Stage (Complete or Fail)
+        id: run_stage
+        run: |
+          if [ "${{ env.STAGE_OUTCOME }}" = "failure" ]; then
+            echo "Stage failed"
+            exit 1
+          else
+            echo "Stage completed successfully"
+            exit 0
+          fi
+
+      # Step 3: If the stage is successful, add a comment
+      - name: Add Success Comment
+        if: success()
+        run: |
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{"body": "🎉 El stage ha sido completado con éxito."}' \
+          ${{ github.event.issue.url }}/comments
+
+      # Step 4: If the stage fails, add a failure comment
+      - name: Add Failure Comment
+        if: failure()
+        run: |
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{"body": "❌ El stage ha sido rechazado."}' \
+          ${{ github.event.issue.url }}/comments
