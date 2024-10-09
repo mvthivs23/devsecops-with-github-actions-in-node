@@ -18,8 +18,8 @@ jobs:
           RESULTADO_LIBRERIA="Libreria aceptada" # O "Libreria rechazada"
           echo "Resultado: $RESULTADO_LIBRERIA"
 
-          if [[ "$RESULTADO_LIBRERIA" == "Libreria aceptada" ]]; then
-            echo "Librería aceptada"
+          if [[ "$RESULTADO_LIBRERIA" == "Libreria rechazada" ]]; then
+            echo "Librería rechazada"
             echo "::set-output name=status::success"
           else
             echo "Librería rechazada"
