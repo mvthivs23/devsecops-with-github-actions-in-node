@@ -9,7 +9,6 @@ body:
       label: "Correo electrónico"
       description: "Ingresa tu correo"
       placeholder: "email@ejemplo.com"
-      required: true
   - type: textarea
     id: descripcion
     attributes:
@@ -22,4 +21,4 @@ body:
       label: "Coordenada de la librería"
       description: "Ingresa la coordenada de la librería (ej: com.ejemplo:lib:1.0.0)"
       placeholder: "com.ejemplo:lib:1.0.0"
-      required: true
+    
