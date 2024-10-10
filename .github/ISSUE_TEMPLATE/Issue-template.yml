@@ -1,7 +1,7 @@
 name: Analisis Libreria
-title: "Analisis libreria"  # Título por defecto o con instrucciones
-description: File a bug report.
-labels: ["bug", "triage"]
+title: ''
+labels: ''
+assignees: ''
 assignees:
   - octocat
 body:
