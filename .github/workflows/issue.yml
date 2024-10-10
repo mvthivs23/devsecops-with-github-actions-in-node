@@ -1,32 +1,38 @@
-name: Analisis de Librerias
+name: Issue Stage Comment Example
 
 on:
   issues:
     types: [opened]
 
+permissions:
+  issues: write  # Permitir que el token escriba en issues
+
 jobs:
-  analyze_libraries:
+  comment-on-issue:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Simular análisis de librerías
-        id: check_library
+      # Step 1: Set an environment variable to control success/failure
+      - name: Set Stage Outcome
         run: |
-          # Simulando un análisis de librerías.
-          RESULTADO_LIBRERIA="Libreria rechazada" # O "Libreria aceptada"
-          echo "Resultado: $RESULTADO_LIBRERIA"
+          # Simulamos un éxito o un fallo
+          echo "STAGE_OUTCOME=success" >> $GITHUB_ENV
+          # O para simular fallo: echo "STAGE_OUTCOME=failure" >> $GITHUB_ENV
 
-          if [[ "$RESULTADO_LIBRERIA" == "Libreria rechazada" ]]; then
-            echo "Librería rechazada"
-            exit 1  # Marca el trabajo como fallido
+      # Step 2: Run your stage logic
+      - name: Run Stage (Complete or Fail)
+        id: run_stage
+        run: |
+          if [ "${{ env.STAGE_OUTCOME }}" = "failure" ]; then
+            echo "Stage failed"
+            exit 1
           else
-            echo "Librería aceptada"
-            exit 0  # Marca el trabajo como exitoso
+            echo "Stage completed successfully"
+            exit 0
           fi
 
-      - name: Comentar en la issue si el análisis fue exitoso
+      # Step 3: Si el stage es exitoso, agregar un comentario a la issue
+      - name: Add Success Comment
         if: success()
         run: |
           curl -L \
@@ -35,9 +41,10 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
-          -d '{"body":"🎉 El análisis de la librería ha sido aceptado."}' > /dev/null 2>&1
+          -d '{"body":"🎉 La libreria ha sido aceptada ya que cumple con los criterios de aceptacion."}' > /dev/null 2>&1
 
-      - name: Comentar en la issue si el análisis falló
+      # Step 4: Si el stage falla, agregar un comentario de fallo
+      - name: Add Failure Comment
         if: failure()
         run: |
           curl -L \
@@ -46,9 +53,10 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
-          -d '{"body":"⚠️ El análisis de la librería ha sido rechazado."}' > /dev/null 2>&1
+          -d '{"body":"❌ La libreria ha sido rechazada, no cumple con los criterios de aceptacion."}' > /dev/null 2>&1
 
-      - name: Cerrar la issue como completada si fue exitoso
+      # Step: Cerrar la issue como completada
+      - name: Close Issue as Completed
         if: success()
         run: |
           curl -L \
@@ -58,8 +66,9 @@ jobs:
           -H "X-GitHub-Api-Version: 2022-11-28" \
           https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} \
           -d '{"state":"closed", "state_reason": "completed"}' > /dev/null 2>&1
-
-      - name: Cerrar la issue como no planeada si falló
+          
+      # Step: Cerrar la issue como no planeado
+      - name: Close Issue as Not Planned
         if: failure()
         run: |
           curl -L \
@@ -68,4 +77,4 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} \
-          -d '{"state":"closed", "state_reason": "not_planned"}' > /dev/null 2>&1
+          -d '{"state":"closed", "state_reason": "not_planned"}' > /dev/null 2>&1    
