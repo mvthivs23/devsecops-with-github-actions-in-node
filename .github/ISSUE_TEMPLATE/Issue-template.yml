@@ -1,14 +1,10 @@
 name: Analisis Libreria
-title: "Problema en la librería: [Indica aquí]"  # Título por defecto o con instrucciones
+title: ""  # Título por defecto o con instrucciones
 description: File a bug report.
 labels: ["bug", "triage"]
 assignees:
   - octocat
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Gracias por tomarte el tiempo para llenar este reporte de error.
 
   - type: input
     id: contacto
@@ -24,7 +20,7 @@ body:
     attributes:
       label: ¿Cuál es tu solicitud?
       description: Cuéntanos qué necesitas
-      placeholder: Debes indicar las coordenadas de la librería
+      placeholder: Detalles solicitud
     validations:
       required: true
 
