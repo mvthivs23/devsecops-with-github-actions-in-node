@@ -1,5 +1,6 @@
 name: Analisis Libreria
 title: "Problema en la librería: [Indica aquí]"  # Título por defecto o con instrucciones
+description: File a bug report.
 labels: ["bug", "triage"]
 assignees:
   - octocat
