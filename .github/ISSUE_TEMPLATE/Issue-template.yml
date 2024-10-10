@@ -1,45 +1,25 @@
-name: Analisis Libreria
-description: File a bug report.
-title: "Problema en la librería: [Indica aquí]"  # Título por defecto o con instrucciones
-labels: ["bug", "triage"]
-projects: ["octo-org/1", "octo-org/44"]  # Asegúrate de que los proyectos existan
-assignees:
-  - octocat
-
+name: "Solicitud de análisis de librería"
+description: "Usa este formulario para solicitar un análisis de librería de terceros"
+title: "Análisis de librería"
+labels: ["análisis"]
 body:
-
   - type: input
-    id: contacto
+    id: correo
     attributes:
-      label: Detalles de contacto
-      description: ¿Cómo podemos ponernos en contacto con usted si necesitamos más información?
-      placeholder: ex. email@example.com
-    validations:
+      label: "Correo electrónico"
+      description: "Ingresa tu correo"
+      placeholder: "email@ejemplo.com"
       required: true
-      
   - type: textarea
-    id: what-happened
+    id: descripcion
     attributes:
-      label: ¿Cuál es tu solicitud?
-      description: Cuéntanos qué necesitas
-      placeholder: Detalles solicitud
-    validations:
+      label: "Descripción"
+      description: "Describe la librería y el motivo del análisis"
+      placeholder: "Detalles del análisis"
+  - type: input
+    id: coordenada
+    attributes:
+      label: "Coordenada de la librería"
+      description: "Ingresa la coordenada de la librería (ej: com.ejemplo:lib:1.0.0)"
+      placeholder: "com.ejemplo:lib:1.0.0"
       required: true
-
-  - type: textarea
-    id: what-coordenate
-    attributes:
-      label: Detalle libreria
-      description:  Debes indicar la oordenada de la libreria.
-      placeholder: "example: npm:file-saver:file-saver:2.0.1"
-    validations:
-      required: true    
-      
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Código de Conducta
-      description: Al enviar este issue, aceptas seguir nuestro [Código de Conducta](https://example.com).
-      options:
-        - label: Acepto seguir el Código de Conducta de este proyecto
-          required: true
