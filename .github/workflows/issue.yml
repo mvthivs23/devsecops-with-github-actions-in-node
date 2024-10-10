@@ -15,7 +15,7 @@ jobs:
         id: check_library
         run: |
           # Simulando un análisis de librerías.
-          RESULTADO_LIBRERIA="Libreria aceptada" # O "Libreria rechazada"
+          RESULTADO_LIBRERIA="Libreria rechazada" # O "Libreria aceptada"
           echo "Resultado: $RESULTADO_LIBRERIA"
 
           if [[ "$RESULTADO_LIBRERIA" == "Libreria rechazada" ]]; then
