@@ -12,69 +12,50 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Set an environment variable to control success/failure
-      - name: Set Stage Outcome
+      # Step 1: Simular el resultado del análisis de la librería
+      - name: Simular análisis de librerías
+        id: check_library
         run: |
-          # Simulamos un éxito o un fallo
-          echo "STAGE_OUTCOME=success" >> $GITHUB_ENV
-          # O para simular fallo: echo "STAGE_OUTCOME=failure" >> $GITHUB_ENV
+          # Simulamos un resultado de librería (puedes cambiar este valor)
+          RESULTADO_LIBRERIA="Libreria aceptada" # O "Libreria rechazada"
+          echo "RESULTADO_LIBRERIA=$RESULTADO_LIBRERIA" >> $GITHUB_ENV
 
-      # Step 2: Run your stage logic
-      - name: Run Stage (Complete or Fail)
-        id: run_stage
+      # Step 2: Agregar comentario y cerrar la issue según el resultado
+      - name: Manejar resultado del análisis
         run: |
-          if [ "${{ env.STAGE_OUTCOME }}" = "failure" ]; then
-            echo "Stage failed"
-            exit 1
-          else
-            echo "Stage completed successfully"
-            exit 0
+          if [[ "${{ env.RESULTADO_LIBRERIA }}" == "Libreria aceptada" ]]; then
+            # Agregar comentario de éxito y cerrar como completada
+            curl -L \
+              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+              -d '{"body":"🎉 La librería ha sido aceptada, se ha cerrado la issue como completada."}' > /dev/null 2>&1
+
+            curl -L \
+              -X PATCH \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} \
+              -d '{"state":"closed", "state_reason": "completed"}' > /dev/null 2>&1
+
+          elif [[ "${{ env.RESULTADO_LIBRERIA }}" == "Libreria rechazada" ]]; then
+            # Agregar comentario de fallo y cerrar como no planeada
+            curl -L \
+              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+              -d '{"body":"❌ La librería ha sido rechazada, se ha cerrado la issue como no planeada."}' > /dev/null 2>&1
+
+            curl -L \
+              -X PATCH \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} \
+              -d '{"state":"closed", "state_reason": "not_planned"}' > /dev/null 2>&1
           fi
-
-      # Step 3: Si el stage es exitoso, agregar un comentario a la issue
-      - name: Add Success Comment
-        if: success()
-        run: |
-          curl -L \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
-          -d '{"body":"🎉 La libreria ha sido aceptada ya que cumple con los criterios de aceptacion."}' > /dev/null 2>&1
-
-      # Step 4: Si el stage falla, agregar un comentario de fallo
-      - name: Add Failure Comment
-        if: failure()
-        run: |
-          curl -L \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
-          -d '{"body":"❌ La libreria ha sido rechazada, no cumple con los criterios de aceptacion."}' > /dev/null 2>&1
-
-      # Step: Cerrar la issue como completada
-      - name: Close Issue as Completed
-        if: success()
-        run: |
-          curl -L \
-          -X PATCH \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} \
-          -d '{"state":"closed", "state_reason": "completed"}' > /dev/null 2>&1
-          
-      # Step: Cerrar la issue como no planeado
-      - name: Close Issue as Not Planned
-        if: failure()
-        run: |
-          curl -L \
-          -X PATCH \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} \
-          -d '{"state":"closed", "state_reason": "not_planned"}' > /dev/null 2>&1    
