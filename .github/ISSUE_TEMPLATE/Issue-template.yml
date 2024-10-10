@@ -1,5 +1,5 @@
 name: Analisis Libreria
-placeholder: Titulo  # Título por defecto o con instrucciones
+title: "Analisis libreria"  # Título por defecto o con instrucciones
 description: File a bug report.
 labels: ["bug", "triage"]
 assignees:
