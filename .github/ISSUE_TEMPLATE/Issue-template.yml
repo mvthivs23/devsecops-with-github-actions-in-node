@@ -16,4 +16,32 @@ body:
     attributes:
       label: Detalles de contacto
       description: ¿Cómo podemos ponernos en contacto con usted si necesitamos más información?
-      placeholder: ex.
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+      
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: ¿Cuál es tu solicitud?
+      description: Cuéntanos qué necesitas
+      placeholder: Debes indicar las coordenadas de la librería
+    validations:
+      required: true
+      
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Proporcione los registros relevantes (opcional)
+    validations:
+      required: false
+      
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Código de Conducta
+      description: Al enviar este issue, aceptas seguir nuestro [Código de Conducta](https://example.com).
+      options:
+        - label: Acepto seguir el Código de Conducta de este proyecto
+          required: true
