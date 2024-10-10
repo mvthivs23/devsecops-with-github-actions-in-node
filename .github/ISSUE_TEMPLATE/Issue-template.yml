@@ -2,8 +2,6 @@ name: Analisis Libreria
 title: ''
 labels: ''
 assignees: ''
-assignees:
-  - octocat
 body:
 
   - type: input
