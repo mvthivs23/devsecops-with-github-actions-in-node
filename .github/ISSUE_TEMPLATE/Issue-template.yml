@@ -1,6 +1,8 @@
 name: Analisis Libreria
-description: File a bug report.
-title: "Analisis libreria: "
+title: "Problema en la librería: [Indica aquí]"  # Título por defecto o con instrucciones
+labels: ["bug", "triage"]
+assignees:
+  - octocat
 body:
   - type: markdown
     attributes:
