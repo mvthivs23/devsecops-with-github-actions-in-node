@@ -17,7 +17,7 @@ jobs:
         id: check_library
         run: |
           # Simulamos un resultado de librería (puedes cambiar este valor)
-          RESULTADO_LIBRERIA="Libreria aceptada" # O "Libreria rechazada"
+          RESULTADO_LIBRERIA="Libreria rechazada" # O "Libreria aceptada"
           echo "RESULTADO_LIBRERIA=$RESULTADO_LIBRERIA" >> $GITHUB_ENV
 
       # Step 2: Agregar comentario y cerrar la issue según el resultado
