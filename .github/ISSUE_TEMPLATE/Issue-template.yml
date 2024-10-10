@@ -1,46 +1,19 @@
-name: "Bug Report"
+name: Analisis Libreria
 description: File a bug report.
-title:
+title: "Problema en la librería: [Indica aquí]"  # Título por defecto o con instrucciones
 labels: ["bug", "triage"]
-projects: ["octo-org/1", "octo-org/44"]  # Asegúrate de que los proyectos existen
+projects: ["octo-org/1", "octo-org/44"]  # Asegúrate de que los proyectos existan
 assignees:
   - octocat
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
-        
+        Gracias por tomarte el tiempo para llenar este reporte de error.
+
   - type: input
     id: contacto
     attributes:
       label: Detalles de contacto
       description: ¿Cómo podemos ponernos en contacto con usted si necesitamos más información?
-      placeholder: ex. email@example.com
-    validations:
-      required: false
-      
-  - type: textarea
-    id: what-happened
-    attributes:
-      label: ¿Cuál es tu solicitud?
-      description: Cuéntanos qué necesitas
-      placeholder: Debes indicar las coordenadas de la librería
-    validations:
-      required: true
-      
-  - type: textarea
-    id: logs
-    attributes:
-      label: Logs
-      description: Proporcione los registros relevantes (opcional)
-    validations:
-      required: false
-      
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: Al enviar este issue, aceptas seguir nuestro [Código de Conducta](https://example.com).
-      options:
-        - label: Acepto seguir el Código de Conducta de
+      placeholder: ex.
