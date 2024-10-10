@@ -1,10 +1,6 @@
 name: Analisis Libreria
 description: File a bug report.
-title: "Problema en la librería: [Indica aquí]"  # Título por defecto o con instrucciones
-labels: ["bug", "triage"]
-projects: ["octo-org/1", "octo-org/44"]  # Asegúrate de que los proyectos existan
-assignees:
-  - octocat
+
 body:
   - type: markdown
     attributes:
@@ -18,7 +14,7 @@ body:
       description: ¿Cómo podemos ponernos en contacto con usted si necesitamos más información?
       placeholder: ex. email@example.com
     validations:
-      required: false
+      required: true
       
   - type: textarea
     id: what-happened
@@ -28,14 +24,15 @@ body:
       placeholder: Debes indicar las coordenadas de la librería
     validations:
       required: true
-      
+
   - type: textarea
-    id: logs
+    id: what-coordenate
     attributes:
-      label: Logs
-      description: Proporcione los registros relevantes (opcional)
+      label: Detalle libreria
+      description:  Debes indicar la oordenada de la libreria.
+      placeholder: example: npm:file-saver:file-saver:2.0.1
     validations:
-      required: false
+      required: true    
       
   - type: checkboxes
     id: terms
