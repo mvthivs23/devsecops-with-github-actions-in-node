@@ -1,0 +1,21 @@
+name: "Analizar librería"
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  analyze-library:
+    runs-on: ubuntu-latest
+    if: github.event.issue.labels.*.name == 'análisis'
+    steps:
+      - name: Extraer coordenada de la issue
+        id: obtener_coordenada
+        run: |
+          # Extraer solo el campo de coordenada usando jq
+          COORDENADA=$(echo '${{ github.event.issue.body }}' | jq -r '.coordenada')
+          echo "Coordenada extraída: $COORDENADA"
+        env:
+          COORDENADA: ""
+      - name: Ejecutar análisis de la librería
+        run: |
+          echo "Analizando la librería con coordenada: $COORDENADA"
