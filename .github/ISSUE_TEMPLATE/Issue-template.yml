@@ -1,7 +1,7 @@
 name: Analisis Libreria
 description: File a bug report.
 title: "Problema en la librería: [Indica aquí]"  # Título por defecto o con instrucciones
-labels: 
+labels: ["bug", "triage"]
 projects: ["octo-org/1", "octo-org/44"]  # Asegúrate de que los proyectos existan
 assignees:
   - octocat
