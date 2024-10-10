@@ -1,8 +1,10 @@
-name: Solicitud analisis libreria de terceros
-about: Realizar el analisis de librerias
-title: ''
-labels: ''
-assignees: ''
+name: Analisis Libreria
+description: File a bug report.
+title: "Problema en la librería: [Indica aquí]"  # Título por defecto o con instrucciones
+labels: 
+projects: ["octo-org/1", "octo-org/44"]  # Asegúrate de que los proyectos existan
+assignees:
+  - octocat
 
 body:
 
